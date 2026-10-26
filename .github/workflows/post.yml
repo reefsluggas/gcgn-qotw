@@ -1,0 +1,57 @@
+name: Post Question of the Week
+
+on:
+  schedule:
+    # Mondays 12:00 PM Eastern. GitHub cron is UTC: 17:00 during EDT, 18:00 during EST.
+    # Both are listed; the script only posts the first 'ready' row, so the second firing is a no-op.
+    - cron: "0 17 * * 1"
+    - cron: "0 18 * * 1"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Post to Facebook as unpublished and skip Instagram"
+        type: boolean
+        default: false
+      only_num:
+        description: "Force a specific queue number (leave blank for next ready)"
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Guard against the double cron firing
+        if: github.event_name == 'schedule'
+        run: |
+          # Only run the cron whose UTC hour matches 12:00 America/New_York right now.
+          NOW_ET_HOUR=$(TZ=America/New_York date +%H)
+          if [ "$NOW_ET_HOUR" != "12" ]; then
+            echo "Not 12 PM Eastern (it is ${NOW_ET_HOUR}:xx ET). Skipping."
+            echo "SKIP=1" >> $GITHUB_ENV
+          fi
+
+      - name: Post
+        if: env.SKIP != '1'
+        env:
+          META_PAGE_TOKEN: ${{ secrets.META_PAGE_TOKEN }}
+          META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          META_IG_USER_ID: ${{ secrets.META_IG_USER_ID }}
+          IMAGE_BASE_URL: https://raw.githubusercontent.com/${{ github.repository }}/main
+          DRY_RUN: ${{ inputs.dry_run == true && '1' || '0' }}
+          ONLY_NUM: ${{ inputs.only_num }}
+        run: python3 post.py
+
+      - name: Commit queue update
+        if: env.SKIP != '1'
+        run: |
+          git config user.name "qotw-bot"
+          git config user.email "qotw-bot@users.noreply.github.com"
+          git add queue.csv
+          git diff --cached --quiet || git commit -m "Mark QotW posted $(date -u +%F)"
+          git push
