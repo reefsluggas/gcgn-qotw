@@ -1,6 +1,6 @@
 slot,dow,time_et,kind,source,images,photos,end_date
-burgr-bingo-tomorrow,Sun,12:00,rotate,burgr/bingo/captions/tomorrow,burgr/flyers/bingo.jpg;burgr/flyers/tournament.jpg@2026-12-10,burgr/bingo/photos,
-burgr-bingo-tonight,Mon,10:00,rotate,burgr/bingo/captions/tonight,burgr/flyers/bingo.jpg,burgr/bingo/photos,
+burgr-bingo-tomorrow,Sun,12:00,rotate,burgr/bingo/captions/tomorrow,burgr/flyers/bingo.jpg;burgr/flyers/tournament.jpg@2026-12-10,burgr/bingo/photos,2026-11-01
+burgr-bingo-tonight,Mon,10:00,rotate,burgr/bingo/captions/tonight,burgr/flyers/bingo.jpg,burgr/bingo/photos,2026-11-01
 qotw,Mon,12:00,queue,queue.csv,,,
-burgr-gameshow-tomorrow,Wed,12:00,rotate,burgr/gameshow/captions/tomorrow,burgr/flyers/gameshow.jpg;burgr/flyers/tournament.jpg@2026-12-10,burgr/gameshow/photos,
-burgr-gameshow-tonight,Thu,10:00,rotate,burgr/gameshow/captions/tonight,burgr/flyers/gameshow.jpg,burgr/gameshow/photos,
+burgr-gameshow-tomorrow,Wed,12:00,rotate,burgr/gameshow/captions/tomorrow,burgr/flyers/gameshow.jpg;burgr/flyers/tournament.jpg@2026-12-10,burgr/gameshow/photos,2026-11-01
+burgr-gameshow-tonight,Thu,10:00,rotate,burgr/gameshow/captions/tonight,burgr/flyers/gameshow.jpg,burgr/gameshow/photos,2026-11-01
